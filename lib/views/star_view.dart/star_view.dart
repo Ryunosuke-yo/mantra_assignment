@@ -5,16 +5,6 @@ class StarView extends HookConsumerWidget {
   const StarView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      child: Center(
-        child: TextField(
-          decoration: InputDecoration(
-            hintText: 'Search',
-            prefixIcon: Icon(Icons.search),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        ),
-      ),
-    );
+    return Container(child: Center(child: Text('ss')));
   }
 }

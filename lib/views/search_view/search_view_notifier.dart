@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mantra_assignment/models/get_repo/get_repo_response.dart';
 import 'package:mantra_assignment/repository/github_repository.dart';

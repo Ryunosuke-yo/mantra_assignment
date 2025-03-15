@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,10 +12,31 @@ class Home extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = useState(0);
 
-    return Scaffold(
-      appBar: AppBar(title: Text('Mantra')),
-      body: [SearchView(), StarView()][currentIndex.value],
-      bottomNavigationBar: BottomNavigationBar(
+    return CupertinoTabScaffold(
+      tabBuilder: (context, index) {
+        switch (index) {
+          case 0:
+            return CupertinoTabView(
+              builder: (context) {
+                return const SearchView();
+              },
+            );
+          case 1:
+            return CupertinoTabView(
+              builder: (context) {
+                return const SearchView();
+              },
+            );
+          default:
+            return CupertinoTabView(
+              builder: (context) {
+                return const SearchView();
+              },
+            );
+        }
+      },
+
+      tabBar: CupertinoTabBar(
         currentIndex: currentIndex.value,
         onTap: (value) {
           currentIndex.value = value;

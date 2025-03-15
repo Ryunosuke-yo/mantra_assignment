@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mantra_assignment/components/auther_list_item.dart';
+import 'package:mantra_assignment/views/detail_view/detail_view.dart';
 import 'package:mantra_assignment/views/search_view/search_view_notifier.dart';
 
 class SearchView extends HookConsumerWidget {
@@ -12,55 +14,74 @@ class SearchView extends HookConsumerWidget {
 
     final notifierState = ref.watch(searchViewNotifierProvider);
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: textController,
-              decoration: InputDecoration(
-                hintText: 'Search',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(middle: Text('Search')),
+      child: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: CupertinoTextField(
+                    controller: textController,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                await ref
-                    .read(searchViewNotifierProvider.notifier)
-                    .getRepo(textController.text);
-              },
-              child: Text('Search'),
-            ),
-            Expanded(
-              child: notifierState.maybeWhen(
-                data: (data) {
-                  return ListView.separated(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    itemCount: data.repoList.length,
-                    itemBuilder: (context, index) {
-                      return AuthorListItem(
-                        authorAvatarUrl: data.repoList[index].owner.avatarUrl,
-                        authorName: data.repoList[index].name,
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    await ref
+                        .read(searchViewNotifierProvider.notifier)
+                        .getRepo(textController.text);
+                  },
+                  child: Text('Search'),
+                ),
+                Expanded(
+                  child: notifierState.maybeWhen(
+                    data: (data) {
+                      return ListView.separated(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        itemCount: data.repoList.length,
+                        itemBuilder: (context, index) {
+                          return AuthorListItem(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => DetailView(
+                                        owner: data.repoList[index].owner.login,
+                                        repo: data.repoList[index].name,
+                                      ),
+                                ),
+                              );
+                            },
+                            authorAvatarUrl:
+                                data.repoList[index].owner.avatarUrl,
+                            authorName: data.repoList[index].name,
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return Divider();
+                        },
                       );
                     },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Divider();
-                    },
-                  );
-                },
-                orElse: () => Container(),
-                loading: () => Center(child: CircularProgressIndicator()),
-                error:
-                    (error, stackTrace) =>
-                        Center(child: Text('Error occurred')),
-              ),
+                    orElse: () => Container(),
+                    loading: () => Center(child: CircularProgressIndicator()),
+                    error:
+                        (error, stackTrace) =>
+                            Center(child: Text('Error occurred')),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
