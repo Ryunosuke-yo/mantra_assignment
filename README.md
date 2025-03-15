@@ -1,3 +1,7 @@
 # mantra_assignment
 
-A new Flutter project.
+watch command for riverpod: dart run build_runner watch -d
+
+TODO:
+
+- supports responsive
