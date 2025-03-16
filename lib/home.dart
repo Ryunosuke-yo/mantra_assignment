@@ -11,6 +11,15 @@ class Home extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = useState(0);
+    final rebuildStarView = useState(false);
+
+    useEffect(() {
+      currentIndex.value == 1
+          ? rebuildStarView.value = true
+          : rebuildStarView.value = false;
+
+      return null;
+    }, [currentIndex.value]);
 
     return CupertinoTabScaffold(
       tabBuilder: (context, index) {
@@ -24,7 +33,7 @@ class Home extends HookConsumerWidget {
           case 1:
             return CupertinoTabView(
               builder: (context) {
-                return const SearchView();
+                return StarView(rebuildStarView: rebuildStarView.value);
               },
             );
           default:

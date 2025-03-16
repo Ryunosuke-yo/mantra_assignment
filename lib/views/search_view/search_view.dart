@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mantra_assignment/components/auther_list_item.dart';
+import 'package:mantra_assignment/util/prefs_util.dart';
 import 'package:mantra_assignment/views/detail_view/detail_view.dart';
 import 'package:mantra_assignment/views/search_view/search_view_notifier.dart';
 
@@ -24,7 +25,6 @@ class SearchView extends HookConsumerWidget {
               children: [
                 SizedBox(
                   width: double.infinity,
-                  height: 50,
                   child: CupertinoTextField(
                     controller: textController,
                     decoration: BoxDecoration(
@@ -50,6 +50,27 @@ class SearchView extends HookConsumerWidget {
                         itemCount: data.repoList.length,
                         itemBuilder: (context, index) {
                           return AuthorListItem(
+                            onTapStar: (isFavorite) {
+                              if (isFavorite) {
+                                SharedPrefService.instance.saveFavRepo(
+                                  SavedFavRepo(
+                                    owner: data.repoList[index].owner.login,
+                                    repo: data.repoList[index].name,
+                                    avatarUrl:
+                                        data.repoList[index].owner.avatarUrl,
+                                  ),
+                                );
+                              } else {
+                                SharedPrefService.instance.removeFavRepo(
+                                  SavedFavRepo(
+                                    owner: data.repoList[index].owner.login,
+                                    repo: data.repoList[index].name,
+                                    avatarUrl:
+                                        data.repoList[index].owner.avatarUrl,
+                                  ),
+                                );
+                              }
+                            },
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -58,13 +79,28 @@ class SearchView extends HookConsumerWidget {
                                       (context) => DetailView(
                                         owner: data.repoList[index].owner.login,
                                         repo: data.repoList[index].name,
+                                        avatarUrl:
+                                            data
+                                                .repoList[index]
+                                                .owner
+                                                .avatarUrl,
                                       ),
                                 ),
-                              );
+                              ).then((value) {
+                                ref
+                                    .read(searchViewNotifierProvider.notifier)
+                                    .getRepo(textController.text);
+                              });
                             },
-                            authorAvatarUrl:
-                                data.repoList[index].owner.avatarUrl,
+                            avatarUrl: data.repoList[index].owner.avatarUrl,
                             authorName: data.repoList[index].name,
+                            isFavorite: SharedPrefService.instance.isFavRepo(
+                              SavedFavRepo(
+                                owner: data.repoList[index].owner.login,
+                                repo: data.repoList[index].name,
+                                avatarUrl: data.repoList[index].owner.avatarUrl,
+                              ),
+                            ),
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) {
