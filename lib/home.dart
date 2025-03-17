@@ -12,8 +12,13 @@ class Home extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = useState(0);
     final rebuildStarView = useState(false);
+    final rebuildSearchView = useState(false);
 
     useEffect(() {
+      currentIndex.value == 0
+          ? rebuildSearchView.value = true
+          : rebuildSearchView.value = false;
+
       currentIndex.value == 1
           ? rebuildStarView.value = true
           : rebuildStarView.value = false;
@@ -27,7 +32,7 @@ class Home extends HookConsumerWidget {
           case 0:
             return CupertinoTabView(
               builder: (context) {
-                return const SearchView();
+                return SearchView(rebuildSearchView: rebuildSearchView.value);
               },
             );
           case 1:
@@ -39,7 +44,7 @@ class Home extends HookConsumerWidget {
           default:
             return CupertinoTabView(
               builder: (context) {
-                return const SearchView();
+                return SearchView(rebuildSearchView: rebuildSearchView.value);
               },
             );
         }

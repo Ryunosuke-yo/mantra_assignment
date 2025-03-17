@@ -1,14 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mantra_assignment/util/prefs_util.dart';
 import 'package:mantra_assignment/views/detail_view/detail_view_notifier.dart';
 import 'package:mantra_assignment/views/search_view/search_view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailView extends HookConsumerWidget {
   const DetailView({

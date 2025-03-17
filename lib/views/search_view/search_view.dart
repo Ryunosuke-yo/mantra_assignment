@@ -8,12 +8,30 @@ import 'package:mantra_assignment/views/detail_view/detail_view.dart';
 import 'package:mantra_assignment/views/search_view/search_view_notifier.dart';
 
 class SearchView extends HookConsumerWidget {
-  const SearchView({super.key});
+  const SearchView({super.key, this.rebuildSearchView});
+  final bool? rebuildSearchView;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textController = useTextEditingController();
 
     final notifierState = ref.watch(searchViewNotifierProvider);
+
+    useEffect(() {
+      if (rebuildSearchView == null || textController.value.text.isEmpty) {
+        return null;
+      }
+
+      if (!rebuildSearchView!) return null;
+
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        ref
+            .read(searchViewNotifierProvider.notifier)
+            .getRepo(textController.text);
+      });
+
+      return null;
+    }, [rebuildSearchView]);
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(middle: Text('Search')),
