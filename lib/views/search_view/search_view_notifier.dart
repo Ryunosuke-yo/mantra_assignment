@@ -19,7 +19,7 @@ class SearchViewNotifier extends _$SearchViewNotifier {
     state = AsyncLoading();
 
     try {
-      final response = await GithubRepository().getRepo(quey: query);
+      final response = await GithubRepository().getRepo(query: query);
 
       state = AsyncData(prev!.copyWith(repoList: response.items));
     } catch (e) {

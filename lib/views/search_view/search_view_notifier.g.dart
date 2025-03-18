@@ -24,7 +24,7 @@ Map<String, dynamic> _$SearchViewNotifierStateToJson(
 // **************************************************************************
 
 String _$searchViewNotifierHash() =>
-    r'864d18138f5248b453ce88ad96edbfb51a2742d6';
+    r'e5c4796f76cb2f60fe8c6d163a33cee7a061b044';
 
 /// See also [SearchViewNotifier].
 @ProviderFor(SearchViewNotifier)
