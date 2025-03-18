@@ -5,6 +5,7 @@ import 'package:mantra_assignment/models/get_repo/get_repo_response.dart';
 import 'package:mantra_assignment/models/get_repo_detail/get_repo_detail_response.dart';
 
 class GithubRepository {
+  //  get the list of repositories
   Future<GetRepoResponse> getRepo({required String query}) async {
     final response = await GithubApiClient().get(
       'search/repositories',
@@ -18,6 +19,7 @@ class GithubRepository {
     return GetRepoResponse.fromJson(jsonDecode(response.body));
   }
 
+  //  get the detail of a repository
   Future<GetRepoDetailResponse> getRepoDetail({
     required String owner,
     required String repo,

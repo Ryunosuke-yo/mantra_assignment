@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mantra_assignment/components/auther_list_item.dart';
+import 'package:mantra_assignment/components/repo_list_item.dart';
 import 'package:mantra_assignment/util/prefs_util.dart';
 import 'package:mantra_assignment/views/detail_view/detail_view.dart';
 import 'package:mantra_assignment/views/search_view/search_view_notifier.dart';
@@ -67,7 +67,7 @@ class SearchView extends HookConsumerWidget {
                         padding: const EdgeInsets.only(bottom: 20),
                         itemCount: data.repoList.length,
                         itemBuilder: (context, index) {
-                          return AuthorListItem(
+                          return RepoListItem(
                             onTapStar: (isFavorite) {
                               if (isFavorite) {
                                 SharedPrefService.instance.saveFavRepo(

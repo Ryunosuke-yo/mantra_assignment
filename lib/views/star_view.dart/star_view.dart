@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mantra_assignment/components/auther_list_item.dart';
+import 'package:mantra_assignment/components/repo_list_item.dart';
 import 'package:mantra_assignment/util/prefs_util.dart';
 
 class StarView extends HookConsumerWidget {
@@ -29,7 +29,7 @@ class StarView extends HookConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: ListView.separated(
               itemBuilder: (context, index) {
-                return AuthorListItem(
+                return RepoListItem(
                   authorName: savedRepo.value[index].owner ?? '',
                   avatarUrl: savedRepo.value[index].avatarUrl ?? '',
                   isFavorite: SharedPrefService.instance.isFavRepo(

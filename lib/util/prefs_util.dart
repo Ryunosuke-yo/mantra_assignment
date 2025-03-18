@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'prefs_util.freezed.dart';
@@ -24,13 +22,10 @@ class SharedPrefService {
   static final SharedPrefService _instance = SharedPrefService._internal();
   late SharedPreferences _pref;
 
-  // プライベートコンストラクタ（外部からのインスタンス作成を防ぐ）
   SharedPrefService._internal();
 
-  // シングルトンのインスタンスを取得
   static SharedPrefService get instance => _instance;
 
-  // 初期化（アプリ起動時に呼び出す）
   Future<void> init() async {
     _pref = await SharedPreferences.getInstance();
   }
@@ -76,7 +71,6 @@ class SharedPrefService {
     final savedList = _pref.getStringList(PrefKey.favRepoList.name) ?? [];
 
     final favRepoJson = jsonEncode(favRepo);
-    final ss = savedList.contains(favRepoJson);
 
     savedList.remove(favRepoJson);
 
